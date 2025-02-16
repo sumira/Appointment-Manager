@@ -4,11 +4,11 @@ const authMiddleware = require("../middleware/auth");
 
 const router = express.Router();
 
-router.post("/appointments", authMiddleware, async (req, res) => {
+router.post("/create-appointment", authMiddleware, async (req, res) => {
     try {
         const appointment = await Appointment.create({
             slot: req.body.slot,
-            userId: req.userId
+            userId: req.user.userId
         });
         res.json(appointment);
     } catch (err) {
