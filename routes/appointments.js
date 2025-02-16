@@ -16,4 +16,18 @@ router.post("/create-appointment", authMiddleware, async (req, res) => {
     }
 });
 
+router.get("/user-appointments", authMiddleware, async (req, res) => {
+    try {
+        const userId = req.user.userId; 
+        const appointments = await Appointment.findAll({
+            where: {
+                userId: userId 
+            }
+        });
+        res.json(appointments); 
+    } catch (err) {
+        res.status(500).json({ error: err.message }); 
+    }
+});
+
 module.exports = router;
