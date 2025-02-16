@@ -30,4 +30,28 @@ router.get("/user-appointments", authMiddleware, async (req, res) => {
     }
 });
 
+router.delete("/delete-appointment/:id", authMiddleware, async (req, res) => {
+    try {
+        const appointmentId = req.params.id;
+        const userId = req.user.userId;
+
+        const appointment = await Appointment.findOne({
+            where: {
+                id: appointmentId,
+                userId: userId
+            }
+        });
+
+        if (!appointment) {
+            return res.status(404).json({ error: "Appointment not found or unauthorized" });
+        }
+
+        await appointment.destroy();
+
+        res.json({ message: "Appointment deleted successfully" });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
 module.exports = router;
