@@ -54,4 +54,18 @@ router.delete("/delete-appointment/:id", authMiddleware, async (req, res) => {
     }
 });
 
+router.get("/booked-slots", async (req, res) => {
+    try {
+        const appointments = await Appointment.findAll({
+            attributes: ['slot'] 
+        });
+
+        const bookedSlots = appointments.map(appointment => appointment.slot); // Extract slots
+
+        res.json(bookedSlots);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
 module.exports = router;
