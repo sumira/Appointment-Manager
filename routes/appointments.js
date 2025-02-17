@@ -59,10 +59,13 @@ router.delete("/delete-appointment/:id", authMiddleware, async (req, res) => {
 router.get("/booked-slots", async (req, res) => {
     try {
         const appointments = await Appointment.findAll({
-            attributes: ['slot'] 
+            attributes: ['date', 'startTime', 'endTime'] 
         });
 
-        const bookedSlots = appointments.map(appointment => appointment.slot); // Extract slots
+        const bookedSlots = appointments.map(appointment => ({
+            date: appointment.date,
+            startTime: appointment.startTime,
+        }));
 
         res.json(bookedSlots);
     } catch (err) {
