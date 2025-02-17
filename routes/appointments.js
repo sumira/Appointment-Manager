@@ -7,7 +7,9 @@ const router = express.Router();
 router.post("/create-appointment", authMiddleware, async (req, res) => {
     try {
         const appointment = await Appointment.create({
-            slot: req.body.slot,
+            date: req.body.date,
+            startTime: req.body.startTime,
+            endTime: req.body.endTime,
             userId: req.user.userId
         });
         res.json(appointment);

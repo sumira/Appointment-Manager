@@ -1,7 +1,9 @@
 module.exports = (sequelize, DataTypes) => {
   const Appointment = sequelize.define("Appointment", {
       id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
-      slot: { type: DataTypes.DATE, allowNull: false, unique: true },
+      date: { type: DataTypes.DATEONLY, allowNull: false },
+      startTime: { type: DataTypes.TIME, allowNull: false },
+      endTime: { type: DataTypes.TIME, allowNull: false },
       userId: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -9,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
             model: 'Users', 
             key: 'id'
         }
-    }
+      }
   });
 
   Appointment.associate = (models) => {
